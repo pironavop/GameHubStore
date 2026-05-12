@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Admin Dashboard</h2>
+
+    <div class="row g-4">
+        <div class="col-md-3">
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center">
+                    <h5>Categories</h5>
+                    <p class="text-muted">Manage game categories</p>
+                    <a asp-area="Admin" asp-controller="Categories" asp-action="Index"
+                       class="btn btn-primary w-100">
+                        Manage
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center">
+                    <h5>Platforms</h5>
+                    <p class="text-muted">PC, PS5, Xbox, Nintendo</p>
+                    <a href="#" class="btn btn-secondary w-100 disabled">Coming Soon</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center">
+                    <h5>Games</h5>
+                    <p class="text-muted">Add and manage games</p>
+                    <a href="#" class="btn btn-secondary w-100 disabled">Coming Soon</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center">
+                    <h5>Orders</h5>
+                    <p class="text-muted">View store orders</p>
+                    <a href="#" class="btn btn-secondary w-100 disabled">Coming Soon</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

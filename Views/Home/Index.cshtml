@@ -1,0 +1,92 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<section class="hero-section">
+    <div class="container">
+        <div class="hero-card">
+            <h1 class="hero-title">
+                Buy Games. Get Keys. <br />
+                Play <span>Instantly.</span>
+            </h1>
+
+            <p class="hero-text">
+                GameHubStore is a modern digital game marketplace where players can
+                explore PC, PlayStation, Xbox, Nintendo, and mobile games with instant
+                digital key delivery.
+            </p>
+
+            <div class="d-flex gap-3 flex-wrap">
+                <a asp-controller="Store" asp-action="Index" class="btn btn-neon">
+                    Explore Store
+                </a>
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-area="Admin"
+                       asp-controller="Dashboard"
+                       asp-action="Index"
+                       class="btn btn-outline-light btn-lg">
+                        Admin Dashboard
+                    </a>
+                }
+            </div>
+        </div>
+
+        <div class="row mt-5 g-4">
+            <div class="col-md-4">
+                <div class="info-card">
+                    <h4>Instant Game Keys</h4>
+                    <p>After successful payment, users receive digital keys directly in their account.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="info-card">
+                    <h4>Multi Platform Store</h4>
+                    <p>Games can be available on PC, PlayStation, Xbox, Nintendo Switch, Android, and iOS.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="info-card">
+                    <h4>Admin Management</h4>
+                    <p>Admins can manage games, categories, platforms, orders, payments, and keys.</p>
+                </div>
+            </div>
+
+            <div class="popular-section mt-5">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Popular Games</h2>
+                    <span class="section-badge">Trending Now</span>
+                </div>
+
+                <div class="game-slider">
+                    @{
+                        var games = new[]
+                        {
+                    "Assassin's Creed",
+                    "Prince of Persia",
+                    "God of War",
+                    "Call of Duty",
+                    "Grand Theft Auto",
+                    "Mafia",
+                    "Need for Speed",
+                    "Far Cry"
+                    };
+                    }
+
+                    @foreach (var game in games)
+                    {
+                        <div class="game-card-animated">
+                            <div class="game-glow"></div>
+                            <h4>@game</h4>
+                            <p>Action • Adventure • Premium</p>
+                            <a href="#" class="btn btn-neon-sm">View Game</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

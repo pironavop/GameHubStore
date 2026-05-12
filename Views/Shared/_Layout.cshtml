@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - GameHubStore</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+
+<body>
+    <div class="game-watermark-bg">
+    <span>ASSASSIN'S CREED</span>
+    <span>PRINCE OF PERSIA</span>
+    <span>GOD OF WAR</span>
+    <span>CALL OF DUTY</span>
+    <span>GRAND THEFT AUTO</span>
+    <span>MAFIA</span>
+</div>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark gaming-navbar">
+            <div class="container">
+                <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">
+                    GameHub<span>Store</span>
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Store" asp-action="Index">Store</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
+                        </li>
+                    </ul>
+
+                    <div class="d-flex align-items-center gap-2">
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <span class="user-text">@User.Identity.Name</span>
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a class="btn btn-neon-sm"
+                                   asp-area="Admin"
+                                   asp-controller="Dashboard"
+                                   asp-action="Index">
+                                    Admin Panel
+                                </a>
+                            }
+
+                            <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-outline-light btn-sm">Logout</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <a class="btn btn-outline-light btn-sm" asp-controller="Account" asp-action="Login">Login</a>
+                            <a class="btn btn-neon-sm" asp-controller="Account" asp-action="Register">Register</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        @RenderBody()
+    </main>
+
+    <footer class="gaming-footer">
+        <div class="container">
+            <div class="row gy-4">
+                <div class="col-md-4">
+                    <h4>GameHub<span>Store</span></h4>
+                    <p>
+                        A futuristic digital game store where users can browse, buy,
+                        and receive instant game keys.
+                    </p>
+                </div>
+
+                <div class="col-md-4">
+                    <h5>Quick Links</h5>
+                    <a asp-controller="Home" asp-action="Index">Home</a>
+                    <a asp-controller="Store" asp-action="Index">Store</a>
+                    <a asp-controller="Home" asp-action="About">About</a>
+                    <a asp-controller="Home" asp-action="Contact">Contact</a>
+                </div>
+
+                <div class="col-md-4">
+                    <h5>Contact</h5>
+                    <p>Email: support@gamehubstore.com</p>
+                    <p>Phone: +91 98765 43210</p>
+                    <p>Address: Mumbai, India</p>
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="text-center small">
+                © 2026 GameHubStore. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

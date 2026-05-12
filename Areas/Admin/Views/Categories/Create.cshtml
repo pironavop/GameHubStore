@@ -1,0 +1,25 @@
+﻿@model GameHubStore.Models.Entities.Category
+
+<h2>Add Category</h2>
+
+<form asp-area="Admin" asp-controller="Categories" asp-action="Create" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label class="form-label">Category Name</label>
+        <input asp-for="Name" class="form-control" placeholder="Example: Action" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea asp-for="Description" class="form-control" rows="4" placeholder="Category description"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Save</button>
+
+    <a asp-area="Admin" asp-controller="Categories" asp-action="Index" class="btn btn-secondary">
+        Back
+    </a>
+</form>
