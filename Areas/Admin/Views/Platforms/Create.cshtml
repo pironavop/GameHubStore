@@ -1,0 +1,25 @@
+﻿@model GameHubStore.Models.Entities.Platform
+
+@{
+    ViewData["Title"] = "Add Platform";
+}
+
+<div class="container mt-4">
+    <h2>Add Platform</h2>
+
+    <form asp-area="Admin" asp-controller="Platforms" asp-action="Create" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="mb-3">
+            <label class="form-label">Platform Name</label>
+            <input asp-for="Name" class="form-control" placeholder="Example: PlayStation 5" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success">Save</button>
+
+        <a asp-area="Admin" asp-controller="Platforms" asp-action="Index" class="btn btn-secondary">
+            Back
+        </a>
+    </form>
+</div>

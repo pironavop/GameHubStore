@@ -1,0 +1,71 @@
+﻿@model List<GameHubStore.Models.Entities.Platform>
+
+@{
+    ViewData["Title"] = "Platforms";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Platforms</h2>
+
+        <a asp-area="Admin" asp-controller="Platforms" asp-action="Create"
+           class="btn btn-primary">
+            + Add Platform
+        </a>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <table class="table table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Created At</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        foreach (var platform in Model)
+                        {
+                            <tr>
+                                <td><strong>@platform.Name</strong></td>
+                                <td>@platform.CreateAt.ToString("dd MMM yyyy")</td>
+                                <td class="text-end">
+                                    <a asp-area="Admin"
+                                       asp-controller="Platforms"
+                                       asp-action="Edit"
+                                       asp-route-id="@platform.Id"
+                                       class="btn btn-sm btn-warning">
+                                        Edit
+                                    </a>
+
+                                    <a asp-area="Admin"
+                                       asp-controller="Platforms"
+                                       asp-action="Delete"
+                                       asp-route-id="@platform.Id"
+                                       class="btn btn-sm btn-danger">
+                                        Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="3" class="text-center">No platforms found.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index"
+       class="btn btn-secondary mt-3">
+        Back to Dashboard
+    </a>
+</div>
