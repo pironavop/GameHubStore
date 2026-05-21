@@ -1,0 +1,129 @@
+﻿@model List<GameHubStore.Models.Entities.Game>
+
+@{
+    ViewData["Title"] = "Games";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Games</h2>
+
+        <a asp-area="Admin" asp-controller="Games" asp-action="Create"
+           class="btn btn-primary">
+            + Add Game
+        </a>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <table class="table table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Cover</th>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Platforms</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Status</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        foreach (var game in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(game.CoverImageUrl))
+                                    {
+                                        <img src="@game.CoverImageUrl"
+                                             style="width:70px;height:90px;object-fit:cover;border-radius:8px;" />
+                                    }
+                                    else
+                                    {
+                                        <span>No Image</span>
+                                    }
+                                </td>
+
+                                <td>
+                                    <strong>@game.Title</strong>
+                                    <br />
+                                    <small class="text-muted">@game.ReleaseDate.ToString("dd MMM yyyy")</small>
+                                </td>
+
+                                <td>@game.Category?.Name</td>
+
+                                <td>
+                                    @foreach (var gp in game.GamePlatforms)
+                                    {
+                                        <span class="badge bg-info text-dark me-1">
+                                            @gp.Platform.Name
+                                        </span>
+                                    }
+                                </td>
+
+                                <td>
+                                    @if (game.DiscountPrice.HasValue)
+                                    {
+                                        <span class="text-decoration-line-through text-muted">₹@game.Price</span>
+                                        <br />
+                                        <strong>₹@game.DiscountPrice</strong>
+                                    }
+                                    else
+                                    {
+                                        <strong>₹@game.Price</strong>
+                                    }
+                                </td>
+
+                                <td>@game.StockQuantity</td>
+
+                                <td>
+                                    @if (game.IsActive)
+                                    {
+                                        <span class="badge bg-success">Active</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">Inactive</span>
+                                    }
+                                </td>
+
+                                <td class="text-end">
+                                    <a asp-area="Admin"
+                                       asp-controller="Games"
+                                       asp-action="Edit"
+                                       asp-route-id="@game.Id"
+                                       class="btn btn-sm btn-warning">
+                                        Edit
+                                    </a>
+
+                                    <a asp-area="Admin"
+                                       asp-controller="Games"
+                                       asp-action="Delete"
+                                       asp-route-id="@game.Id"
+                                       class="btn btn-sm btn-danger">
+                                        Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="8" class="text-center">No games found.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index"
+       class="btn btn-secondary mt-3">
+        Back to Dashboard
+    </a>
+</div>
