@@ -1,0 +1,124 @@
+﻿@model GameHubStore.Models.ViewModels.GameViewModel
+
+@{
+    ViewData["Title"] = "Edit Game";
+}
+
+<div class="container mt-4">
+    <h2>Edit Game</h2>
+
+    @* <form asp-area="Admin" asp-controller="Games" asp-action="Edit" method="post"> *@
+    <form asp-area="Admin" asp-controller="Games" asp-action="Edit" method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="Id" />
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="mb-3">
+                    <label class="form-label">Game Title</label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Cover Image URL</label>
+                    <input asp-for="CoverImageFile" type="file" class="form-control" accept="image/*" />
+                    <span asp-validation-for="CoverImageFile" class="text-danger"></span>
+                    <input type="hidden" asp-for="CoverImageUrl" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Trailer URL</label>
+                    <input asp-for="TrailerUrl" class="form-control" />
+                    <span asp-validation-for="TrailerUrl" class="text-danger"></span>
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.CoverImageUrl))
+                {
+                    <div class="mb-3">
+                        <label class="form-label">Current Cover</label>
+                        <br />
+                        <img src="@Model.CoverImageUrl"
+                             style="width:150px;height:200px;object-fit:cover;border-radius:10px;" />
+                    </div>
+                }
+            </div>
+
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <label class="form-label">Category</label>
+                    <select asp-for="CategoryId" asp-items="Model.Categories" class="form-select">
+                        <option value="">-- Select Category --</option>
+                    </select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Platforms</label>
+
+                    @foreach (var platform in Model.Platforms)
+                    {
+                        var isChecked = Model.SelectedPlatformIds.Contains(int.Parse(platform.Value));
+
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   name="SelectedPlatformIds"
+                                   value="@platform.Value"
+                                   id="platform_@platform.Value"
+                                   checked="@isChecked" />
+
+                            <label class="form-check-label" for="platform_@platform.Value">
+                                @platform.Text
+                            </label>
+                        </div>
+                    }
+
+                    <span asp-validation-for="SelectedPlatformIds" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Price</label>
+                    <input asp-for="Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Discount Price</label>
+                    <input asp-for="DiscountPrice" class="form-control" />
+                    <span asp-validation-for="DiscountPrice" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Stock Quantity</label>
+                    <input asp-for="StockQuantity" class="form-control" />
+                    <span asp-validation-for="StockQuantity" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Release Date</label>
+                    <input asp-for="ReleaseDate" type="date" class="form-control" />
+                    <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+                </div>
+
+                <div class="form-check mb-3">
+                    <input asp-for="IsActive" class="form-check-input" />
+                    <label class="form-check-label">Active</label>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success">Update Game</button>
+
+        <a asp-area="Admin" asp-controller="Games" asp-action="Index" class="btn btn-secondary">
+            Back
+        </a>
+    </form>
+</div>
