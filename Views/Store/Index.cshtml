@@ -1,0 +1,80 @@
+﻿@model List<GameHubStore.Models.Entities.Game>
+
+@{
+    ViewData["Title"] = "Store";
+}
+
+<section class="store-section py-5">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="fw-bold">Game Store</h1>
+                <p class="text-light opacity-75">Explore premium digital games and instant keys.</p>
+            </div>
+        </div>
+
+        @if (Model.Any())
+        {
+            <div class="row g-4">
+                @foreach (var game in Model)
+                {
+                    <div class="col-md-4 col-lg-3">
+                        <div class="store-game-card">
+                            <div class="store-game-image">
+                                @if (!string.IsNullOrEmpty(game.CoverImageUrl))
+                                {
+                                    <img src="@game.CoverImageUrl" alt="@game.Title" />
+                                }
+                                else
+                                {
+                                    <div class="no-cover">No Image</div>
+                                }
+                            </div>
+
+                            <div class="store-game-body">
+                                <span class="game-category">@game.Category?.Name</span>
+
+                                <h5>@game.Title</h5>
+
+                                <div class="platform-list">
+                                    @foreach (var gp in game.GamePlatforms)
+                                    {
+                                        <span>@gp.Platform.Name</span>
+                                    }
+                                </div>
+
+                                <div class="price-row">
+                                    @if (game.DiscountPrice.HasValue)
+                                    {
+                                        <div>
+                                            <small class="old-price">₹@game.Price</small>
+                                            <strong>₹@game.DiscountPrice</strong>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <strong>₹@game.Price</strong>
+                                    }
+                                </div>
+
+                                <a asp-controller="Store"
+                                   asp-action="Details"
+                                   asp-route-id="@game.Id"
+                                   class="btn btn-neon-sm w-100 mt-3">
+                                    View Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="info-card">
+                <h4>No games available yet.</h4>
+                <p>Admin can add games from the dashboard.</p>
+            </div>
+        }
+    </div>
+</section>

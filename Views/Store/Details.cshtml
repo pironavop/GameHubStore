@@ -1,0 +1,82 @@
+﻿@model GameHubStore.Models.Entities.Game
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<section class="game-details-section py-5">
+    <div class="container">
+        <a asp-controller="Store" asp-action="Index" class="btn btn-outline-light mb-4">
+            ← Back to Store
+        </a>
+
+        <div class="game-details-card">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    @if (!string.IsNullOrEmpty(Model.CoverImageUrl))
+                    {
+                        <img src="@Model.CoverImageUrl"
+                             class="game-details-cover"
+                             alt="@Model.Title" />
+                    }
+                    else
+                    {
+                        <div class="no-cover details-no-cover">No Image</div>
+                    }
+                </div>
+
+                <div class="col-md-8">
+                    <span class="game-category">@Model.Category?.Name</span>
+
+                    <h1 class="mt-3">@Model.Title</h1>
+
+                    <p class="text-light opacity-75">
+                        Released on @Model.ReleaseDate.ToString("dd MMM yyyy")
+                    </p>
+
+                    <div class="platform-list mb-3">
+                        @foreach (var gp in Model.GamePlatforms)
+                        {
+                            <span>@gp.Platform.Name</span>
+                        }
+                    </div>
+
+                    <p class="game-description">
+                        @Model.Description
+                    </p>
+
+                    <div class="details-price mb-4">
+                        @if (Model.DiscountPrice.HasValue)
+                        {
+                            <span class="old-price me-2">₹@Model.Price</span>
+                            <strong>₹@Model.DiscountPrice</strong>
+                        }
+                        else
+                        {
+                            <strong>₹@Model.Price</strong>
+                        }
+                    </div>
+
+                    <p>
+                        <strong>Stock:</strong> @Model.StockQuantity keys available
+                    </p>
+
+                    <div class="d-flex gap-3 flex-wrap">
+                        <a href="#" class="btn btn-neon">
+                            Add to Cart
+                        </a>
+
+                        @if (!string.IsNullOrEmpty(Model.TrailerUrl))
+                        {
+                            <a href="@Model.TrailerUrl"
+                               target="_blank"
+                               class="btn btn-outline-light btn-lg">
+                                Watch Trailer
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
