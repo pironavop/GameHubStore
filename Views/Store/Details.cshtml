@@ -62,9 +62,12 @@
                     </p>
 
                     <div class="d-flex gap-3 flex-wrap">
-                        <a href="#" class="btn btn-neon">
-                            Add to Cart
-                        </a>
+                        <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                            <input type="hidden" name="gameId" value="@Model.Id" />
+                            <button type="submit" class="btn btn-neon">
+                                Add to Cart
+                            </button>
+                        </form>
 
                         @if (!string.IsNullOrEmpty(Model.TrailerUrl))
                         {
