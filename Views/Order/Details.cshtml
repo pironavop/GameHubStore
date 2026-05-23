@@ -1,0 +1,68 @@
+﻿@model GameHubStore.Models.Entities.Order
+
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+<section class="order-details-section py-5">
+    <div class="container">
+        <a asp-controller="Order" asp-action="MyOrders" class="btn btn-outline-light mb-4">
+            ← My Orders
+        </a>
+
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success">@TempData["Success"]</div>
+        }
+
+        <div class="game-details-card">
+            <div class="d-flex justify-content-between align-items-start mb-4">
+                <div>
+                    <h2>Order #@Model.Id</h2>
+                    <p class="text-light opacity-75">@Model.OrderDate.ToString("dd MMM yyyy hh:mm tt")</p>
+                </div>
+
+                <div class="text-end">
+                    <span class="badge bg-warning text-dark">@Model.OrderStatus</span>
+                    <span class="badge bg-info text-dark">@Model.PaymentStatus</span>
+                </div>
+            </div>
+
+            @foreach (var item in Model.OrderItems)
+            {
+                <div class="cart-item">
+                    <div class="cart-item-image">
+                        @if (!string.IsNullOrEmpty(item.Game.CoverImageUrl))
+                        {
+                            <img src="@item.Game.CoverImageUrl" alt="@item.Game.Title" />
+                        }
+                        else
+                        {
+                            <div class="no-cover">No Image</div>
+                        }
+                    </div>
+
+                    <div class="cart-item-info">
+                        <h5>@item.Game.Title</h5>
+                        <p class="text-light opacity-75">Quantity: @item.Quantity</p>
+                        <strong>₹@(item.Price * item.Quantity)</strong>
+                    </div>
+                </div>
+            }
+
+            <hr />
+
+            <div class="d-flex justify-content-between">
+                <h4>Total Amount</h4>
+                <h4>₹@Model.TotalAmount</h4>
+            </div>
+
+            @if (Model.PaymentStatus == GameHubStore.Models.Enums.PaymentStatus.Pending)
+            {
+                <a href="#" class="btn btn-neon mt-4">
+                    Pay Now
+                </a>
+            }
+        </div>
+    </div>
+</section>

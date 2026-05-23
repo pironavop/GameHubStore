@@ -1,0 +1,69 @@
+﻿@model GameHubStore.Models.ViewModels.CheckoutViewModel
+
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<section class="checkout-section py-5">
+    <div class="container">
+        <h1 class="fw-bold mb-4">Checkout</h1>
+
+        <div class="row g-4">
+            <div class="col-md-8">
+                <div class="cart-card">
+                    <h4 class="mb-3">Order Items</h4>
+
+                    @foreach (var item in Model.Cart.CartItems)
+                    {
+                        <div class="cart-item">
+                            <div class="cart-item-image">
+                                @if (!string.IsNullOrEmpty(item.Game.CoverImageUrl))
+                                {
+                                    <img src="@item.Game.CoverImageUrl" alt="@item.Game.Title" />
+                                }
+                                else
+                                {
+                                    <div class="no-cover">No Image</div>
+                                }
+                            </div>
+
+                            <div class="cart-item-info">
+                                <h5>@item.Game.Title</h5>
+                                <p class="text-light opacity-75">Quantity: @item.Quantity</p>
+                                <strong>₹@(item.UnitPrice * item.Quantity)</strong>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="cart-summary">
+                    <h4>Payment Summary</h4>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <span>Total Items</span>
+                        <strong>@Model.Cart.CartItems.Count</strong>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-3">
+                        <span>Total Amount</span>
+                        <strong>₹@Model.TotalAmount</strong>
+                    </div>
+
+                    <hr />
+
+                    <form asp-controller="Order" asp-action="PlaceOrder" method="post">
+                        <button type="submit" class="btn btn-neon w-100">
+                            Place Order
+                        </button>
+                    </form>
+
+                    <a asp-controller="Cart" asp-action="Index" class="btn btn-outline-light w-100 mt-2">
+                        Back to Cart
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
