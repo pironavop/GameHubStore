@@ -54,6 +54,10 @@
                     <div class="d-flex align-items-center gap-2">
                         @if (User.Identity != null && User.Identity.IsAuthenticated)
                         {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Order" asp-action="MyOrders">My Orders</a>
+                            </li>
+
                             <span class="user-text">@User.Identity.Name</span>
 
                             @if (User.IsInRole("Admin"))
