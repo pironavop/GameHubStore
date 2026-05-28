@@ -59,7 +59,10 @@
 
             @if (Model.PaymentStatus == GameHubStore.Models.Enums.PaymentStatus.Pending)
             {
-                <a href="#" class="btn btn-neon mt-4">
+                <a asp-controller="Payment"
+                   asp-action="Pay"
+                   asp-route-orderId="@Model.Id"
+                   class="btn btn-neon mt-4">
                     Pay Now
                 </a>
             }

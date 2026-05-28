@@ -1,0 +1,67 @@
+﻿@model GameHubStore.Models.ViewModels.RazorpayCheckoutViewModel
+
+@{
+    ViewData["Title"] = "Payment";
+}
+
+<section class="payment-section py-5">
+    <div class="container">
+        <div class="game-details-card text-center">
+            <h2>Complete Payment</h2>
+            <p class="text-light opacity-75">Order #@Model.OrderId</p>
+
+            <h1 class="my-4">₹@Model.Amount</h1>
+
+            <button id="rzp-button" class="btn btn-neon">
+                Pay with Razorpay
+            </button>
+
+            <a asp-controller="Order"
+               asp-action="Details"
+               asp-route-id="@Model.OrderId"
+               class="btn btn-outline-light ms-2">
+                Cancel
+            </a>
+        </div>
+    </div>
+</section>
+
+<form id="payment-success-form" asp-controller="Payment" asp-action="Verify" method="post">
+    <input type="hidden" name="orderId" value="@Model.OrderId" />
+    <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id" />
+    <input type="hidden" name="razorpay_order_id" id="razorpay_order_id" />
+    <input type="hidden" name="razorpay_signature" id="razorpay_signature" />
+</form>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+    var options = {
+        "key": "@Model.RazorpayKeyId",
+        "amount": "@((int)(Model.Amount * 100))",
+        "currency": "INR",
+        "name": "GameHubStore",
+        "description": "Digital Game Purchase",
+        "order_id": "@Model.RazorpayOrderId",
+        "prefill": {
+            "name": "@Model.UserName",
+            "email": "@Model.UserEmail"
+        },
+        "theme": {
+            "color": "#6dd6ff"
+        },
+        "handler": function (response) {
+            document.getElementById("razorpay_payment_id").value = response.razorpay_payment_id;
+            document.getElementById("razorpay_order_id").value = response.razorpay_order_id;
+            document.getElementById("razorpay_signature").value = response.razorpay_signature;
+            document.getElementById("payment-success-form").submit();
+        }
+    };
+
+    var rzp = new Razorpay(options);
+
+    document.getElementById('rzp-button').onclick = function (e) {
+        rzp.open();
+        e.preventDefault();
+    };
+</script>
