@@ -153,6 +153,7 @@ namespace GameHubStore.Controllers
 
             order.PaymentStatus = PaymentStatus.Paid;
             order.OrderStatus = OrderStatus.Completed;
+            await AssignGameKeysAsync(order.Id, userId!);
 
             if (order.Payment != null)
             {
@@ -166,6 +167,69 @@ namespace GameHubStore.Controllers
             TempData["Success"] = "Payment successful.";
             return RedirectToAction("Details", "Order", new { id = order.Id });
         }
+
+
+        private async Task AssignGameKeysAsync(int orderId, string userId)
+        {
+            var order = await _context.Orders
+                .Include(o => o.OrderItems)
+                .FirstOrDefaultAsync(o => o.Id == orderId);
+
+            if (order == null)
+                return;
+
+            foreach (var item in order.OrderItems)
+            {
+                for (int i = 0; i < item.Quantity; i++)
+                {
+                    var availableKey = await _context.GameKeys
+                        .FirstOrDefaultAsync(k => k.GameId == item.GameId && !k.IsSold);
+
+                    if (availableKey != null)
+                    {
+                        availableKey.IsSold = true;
+                        availableKey.SoldToUserId = userId;
+                        availableKey.SoldOrderId = orderId;
+                    }
+                }
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> SimulateSuccess(int orderId)
+        {
+            var userId = _userManager.GetUserId(User);
+
+            var order = await _context.Orders
+                .Include(o => o.Payment)
+                .FirstOrDefaultAsync(o => o.Id == orderId && o.UserId == userId);
+
+            if (order == null)
+                return NotFound();
+
+            order.PaymentStatus = PaymentStatus.Paid;
+            order.OrderStatus = OrderStatus.Completed;
+
+            if (order.Payment != null)
+            {
+                order.Payment.Status = PaymentStatus.Paid;
+                order.Payment.TransactionId = Guid.NewGuid().ToString();
+                order.Payment.PaymentDate = DateTime.UtcNow;
+            }
+
+            await AssignGameKeysAsync(order.Id, userId!);
+
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Test payment completed successfully.";
+
+            return RedirectToAction("Details", "Order", new { id = order.Id });
+        }
+
+
 
         private bool VerifyPaymentSignature(
             string razorpayOrderId,

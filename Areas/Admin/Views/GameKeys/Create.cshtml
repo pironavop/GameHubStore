@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Add Game Key";
+}
+
+<div class="container mt-4">
+    <h2>Add Game Key</h2>
+
+    <form asp-area="Admin" asp-controller="GameKeys" asp-action="Create" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="mb-3">
+            <label class="form-label">Game</label>
+            <select name="gameId" class="form-select" asp-items="ViewBag.Games">
+                <option value="">-- Select Game --</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Key Code</label>
+            <input name="keyCode" class="form-control" placeholder="Example: XXXX-XXXX-XXXX-XXXX" />
+        </div>
+
+        <button type="submit" class="btn btn-success">Save Key</button>
+
+        <a asp-area="Admin" asp-controller="GameKeys" asp-action="Index" class="btn btn-secondary">
+            Back
+        </a>
+    </form>
+</div>

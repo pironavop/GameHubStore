@@ -558,3 +558,14 @@ a {
     .orders-table tbody tr:hover {
         background: rgba(255, 255, 255, 0.05);
     }
+
+.key-box {
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px dashed rgba(109, 214, 255, 0.55);
+    color: #ffffff;
+    border-radius: 12px;
+    padding: 12px;
+    font-family: Consolas, monospace;
+    letter-spacing: 1px;
+    word-break: break-all;
+}
