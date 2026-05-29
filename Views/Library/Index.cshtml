@@ -1,0 +1,57 @@
+﻿@model List<GameHubStore.Models.Entities.GameKey>
+
+@{
+    ViewData["Title"] = "My Library";
+}
+
+<section class="library-section py-5">
+    <div class="container">
+        <h1 class="fw-bold mb-4">My Game Library</h1>
+
+        @if (Model.Any())
+        {
+            <div class="row g-4">
+                @foreach (var key in Model)
+                {
+                    <div class="col-md-4">
+                        <div class="store-game-card">
+                            <div class="store-game-image">
+                                @if (!string.IsNullOrEmpty(key.Game.CoverImageUrl))
+                                {
+                                    <img src="@key.Game.CoverImageUrl" alt="@key.Game.Title" />
+                                }
+                                else
+                                {
+                                    <div class="no-cover">No Image</div>
+                                }
+                            </div>
+
+                            <div class="store-game-body">
+                                <span class="game-category">@key.Game.Category?.Name</span>
+
+                                <h5>@key.Game.Title</h5>
+
+                                <p class="mt-3 text-light opacity-75">Activation Key:</p>
+
+                                <div class="key-box">
+                                    @key.KeyCode
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="info-card">
+                <h4>No purchased games yet.</h4>
+                <p>After successful payment, your game keys will appear here.</p>
+
+                <a asp-controller="Store" asp-action="Index" class="btn btn-neon">
+                    Browse Store
+                </a>
+            </div>
+        }
+    </div>
+</section>

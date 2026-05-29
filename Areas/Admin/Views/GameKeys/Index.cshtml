@@ -1,0 +1,75 @@
+﻿@model List<GameHubStore.Models.Entities.GameKey>
+
+@{
+    ViewData["Title"] = "Game Keys";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Game Keys</h2>
+
+        <a asp-area="Admin" asp-controller="GameKeys" asp-action="Create"
+           class="btn btn-primary">
+            + Add Key
+        </a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <table class="table table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Game</th>
+                        <th>Key Code</th>
+                        <th>Status</th>
+                        <th>Sold To</th>
+                        <th>Created At</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        foreach (var key in Model)
+                        {
+                            <tr>
+                                <td>@key.Game.Title</td>
+                                <td>
+                                    <code>@key.KeyCode</code>
+                                </td>
+                                <td>
+                                    @if (key.IsSold)
+                                    {
+                                        <span class="badge bg-danger">Sold</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-success">Available</span>
+                                    }
+                                </td>
+                                <td>@(key.SoldToUser?.Email ?? "-")</td>
+                                <td>@key.CreatedAt.ToString("dd MMM yyyy")</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center">No keys found.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index"
+       class="btn btn-secondary mt-3">
+        Back to Dashboard
+    </a>
+</div>
