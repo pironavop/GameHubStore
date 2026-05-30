@@ -1,0 +1,85 @@
+﻿@model List<GameHubStore.Models.Entities.Order>
+
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Orders</h2>
+
+        <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index"
+           class="btn btn-secondary">
+            Back to Dashboard
+        </a>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <table class="table table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Order No</th>
+                        <th>User</th>
+                        <th>Date</th>
+                        <th>Total</th>
+                        <th>Order Status</th>
+                        <th>Payment Status</th>
+                        <th>Items</th>
+                        <th class="text-end">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        foreach (var order in Model)
+                        {
+                            <tr>
+                                <td>#@order.Id</td>
+                                <td>@order.User?.Email</td>
+                                <td>@order.OrderDate.ToString("dd MMM yyyy")</td>
+                                <td>₹@order.TotalAmount</td>
+                                <td>
+                                    <span class="badge bg-warning text-dark">
+                                        @order.OrderStatus
+                                    </span>
+                                </td>
+                                <td>
+                                    @if (order.PaymentStatus == GameHubStore.Models.Enums.PaymentStatus.Paid)
+                                    {
+                                        <span class="badge bg-success">Paid</span>
+                                    }
+                                    else if (order.PaymentStatus == GameHubStore.Models.Enums.PaymentStatus.Failed)
+                                    {
+                                        <span class="badge bg-danger">Failed</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">Pending</span>
+                                    }
+                                </td>
+                                <td>@order.OrderItems.Count</td>
+                                <td class="text-end">
+                                    <a asp-area="Admin"
+                                       asp-controller="Orders"
+                                       asp-action="Details"
+                                       asp-route-id="@order.Id"
+                                       class="btn btn-sm btn-primary">
+                                        View
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="8" class="text-center">No orders found.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

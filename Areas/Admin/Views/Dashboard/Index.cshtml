@@ -1,13 +1,174 @@
-﻿@{
+﻿@* @{ *@
+@*     ViewData["Title"] = "Admin Dashboard"; *@
+@* } *@
+
+@* <div class="container mt-4"> *@
+@*     <h2 class="mb-4">Admin Dashboard</h2> *@
+
+@*     <div class="row g-4"> *@
+@*         <div class="col-md-3"> *@
+@*             <div class="card shadow-sm border-0"> *@
+@*                 <div class="card-body text-center"> *@
+@*                     <h5>Categories</h5> *@
+@*                     <p class="text-muted">Manage game categories</p> *@
+@*                     <a asp-area="Admin" asp-controller="Categories" asp-action="Index" *@
+@*                        class="btn btn-primary w-100"> *@
+@*                         Manage *@
+@*                     </a> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+
+
+@*         <div class="col-md-3"> *@
+@*             <div class="card shadow-sm border-0"> *@
+@*                 <div class="card-body text-center"> *@
+@*                     <h5>Platforms</h5> *@
+@*                     <p class="text-muted">PC, PS5, Xbox, Nintendo</p> *@
+@*                     <a asp-area="Admin" asp-controller="Platforms" asp-action="Index" class="btn btn-primary w-100"> *@
+@*                         Manage *@
+@*                     </a> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+
+@*         <div class="col-md-3"> *@
+@*             <div class="card shadow-sm border-0"> *@
+@*                 <div class="card-body text-center"> *@
+@*                     <h5>Games</h5> *@
+@*                     <p class="text-muted">Add and manage games</p> *@
+@*                     <a asp-area="Admin" asp-controller="Games" asp-action="Index" *@
+@*                        class="btn btn-primary w-100"> *@
+@*                         Manage *@
+@*                     </a> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+
+@*         <div class="col-md-3"> *@
+@*             <div class="card shadow-sm border-0"> *@
+@*                 <div class="card-body text-center"> *@
+@*                     <h5>Orders</h5> *@
+@*                     <p class="text-muted">View store orders</p> *@
+@*                     <a href="#" class="btn btn-secondary w-100 disabled">Coming Soon</a> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+
+
+@*         <div class="col-md-3"> *@
+@*             <div class="card shadow-sm border-0"> *@
+@*                 <div class="card-body text-center"> *@
+@*                     <h5>Game Keys</h5> *@
+@*                     <p class="text-muted">Manage digital activation keys</p> *@
+@*                     <a asp-area="Admin" asp-controller="GameKeys" asp-action="Index" *@
+@*                        class="btn btn-primary w-100"> *@
+@*                         Manage *@
+@*                     </a> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+
+
+@*         <div class="col-md-3"> *@
+@*             <div class="card shadow-sm border-0"> *@
+@*                 <div class="card-body text-center"> *@
+@*                     <h5>Orders</h5> *@
+@*                     <p class="text-muted">View and manage customer orders</p> *@
+@*                     <a asp-area="Admin" *@
+@*                        asp-controller="Orders" *@
+@*                        asp-action="Index" *@
+@*                        class="btn btn-primary w-100"> *@
+@*                         Manage *@
+@*                     </a> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@
+
+
+
+
+@model GameHubStore.Models.ViewModels.AdminDashboardViewModel
+
+@{
     ViewData["Title"] = "Admin Dashboard";
 }
 
 <div class="container mt-4">
-    <h2 class="mb-4">Admin Dashboard</h2>
+    <div class="mb-4">
+        <h2>Admin Dashboard</h2>
+        <p class="text-muted">Manage your game store, orders, payments and digital keys.</p>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-3">
+            <div class="dashboard-stat-card stat-blue">
+                <h6>Total Users</h6>
+                <h2>@Model.TotalUsers</h2>
+                <p>Registered users</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="dashboard-stat-card stat-purple">
+                <h6>Total Games</h6>
+                <h2>@Model.TotalGames</h2>
+                <p>Games in store</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="dashboard-stat-card stat-green">
+                <h6>Total Orders</h6>
+                <h2>@Model.TotalOrders</h2>
+                <p>All orders</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="dashboard-stat-card stat-gold">
+                <h6>Total Revenue</h6>
+                <h2>₹@Model.TotalRevenue</h2>
+                <p>Paid orders only</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-3">
+            <div class="dashboard-mini-card">
+                <h5>@Model.TotalCategories</h5>
+                <p>Categories</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="dashboard-mini-card">
+                <h5>@Model.TotalPlatforms</h5>
+                <p>Platforms</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="dashboard-mini-card">
+                <h5>@Model.AvailableKeys</h5>
+                <p>Available Keys</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="dashboard-mini-card">
+                <h5>@Model.SoldKeys</h5>
+                <p>Sold Keys</p>
+            </div>
+        </div>
+    </div>
 
     <div class="row g-4">
         <div class="col-md-3">
-            <div class="card shadow-sm border-0">
+            <div class="card shadow-sm border-0 admin-menu-card">
                 <div class="card-body text-center">
                     <h5>Categories</h5>
                     <p class="text-muted">Manage game categories</p>
@@ -19,13 +180,13 @@
             </div>
         </div>
 
-
         <div class="col-md-3">
-            <div class="card shadow-sm border-0">
+            <div class="card shadow-sm border-0 admin-menu-card">
                 <div class="card-body text-center">
                     <h5>Platforms</h5>
                     <p class="text-muted">PC, PS5, Xbox, Nintendo</p>
-                    <a asp-area="Admin" asp-controller="Platforms" asp-action="Index" class="btn btn-primary w-100">
+                    <a asp-area="Admin" asp-controller="Platforms" asp-action="Index"
+                       class="btn btn-primary w-100">
                         Manage
                     </a>
                 </div>
@@ -33,7 +194,7 @@
         </div>
 
         <div class="col-md-3">
-            <div class="card shadow-sm border-0">
+            <div class="card shadow-sm border-0 admin-menu-card">
                 <div class="card-body text-center">
                     <h5>Games</h5>
                     <p class="text-muted">Add and manage games</p>
@@ -46,22 +207,54 @@
         </div>
 
         <div class="col-md-3">
-            <div class="card shadow-sm border-0">
+            <div class="card shadow-sm border-0 admin-menu-card">
                 <div class="card-body text-center">
-                    <h5>Orders</h5>
-                    <p class="text-muted">View store orders</p>
-                    <a href="#" class="btn btn-secondary w-100 disabled">Coming Soon</a>
+                    <h5>Game Keys</h5>
+                    <p class="text-muted">Manage activation keys</p>
+                    <a asp-area="Admin" asp-controller="GameKeys" asp-action="Index"
+                       class="btn btn-primary w-100">
+                        Manage
+                    </a>
                 </div>
             </div>
         </div>
 
+        <div class="col-md-3">
+            <div class="card shadow-sm border-0 admin-menu-card">
+                <div class="card-body text-center">
+                    <h5>Orders</h5>
+                    <p class="text-muted">View customer orders</p>
+                    <a asp-area="Admin" asp-controller="Orders" asp-action="Index"
+                       class="btn btn-primary w-100">
+                        Manage
+                    </a>
+                </div>
+            </div>
+        </div>
 
         <div class="col-md-3">
-            <div class="card shadow-sm border-0">
+            <div class="card shadow-sm border-0 admin-menu-card">
                 <div class="card-body text-center">
-                    <h5>Game Keys</h5>
-                    <p class="text-muted">Manage digital activation keys</p>
-                    <a asp-area="Admin" asp-controller="GameKeys" asp-action="Index"
+                    <h5>Users</h5>
+                    <p class="text-muted">View registered users</p>
+                    <a asp-area="Admin"
+                       asp-controller="Users"
+                       asp-action="Index"
+                       class="btn btn-primary w-100">
+                        Manage
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm border-0 admin-menu-card">
+                <div class="card-body text-center">
+                    <h5>Payments</h5>
+                    <p class="text-muted">Track transactions and statuses</p>
+                    <a asp-area="Admin"
+                       asp-controller="Payments"
+                       asp-action="Index"
                        class="btn btn-primary w-100">
                         Manage
                     </a>

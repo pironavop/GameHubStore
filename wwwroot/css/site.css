@@ -569,3 +569,68 @@ a {
     letter-spacing: 1px;
     word-break: break-all;
 }
+
+
+
+.dashboard-stat-card {
+    border-radius: 22px;
+    padding: 24px;
+    color: #ffffff;
+    min-height: 160px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+}
+
+    .dashboard-stat-card h6 {
+        opacity: 0.85;
+        font-size: 0.9rem;
+    }
+
+    .dashboard-stat-card h2 {
+        font-size: 2.4rem;
+        font-weight: 800;
+        margin: 10px 0;
+    }
+
+    .dashboard-stat-card p {
+        margin: 0;
+        opacity: 0.75;
+    }
+
+.stat-blue {
+    background: linear-gradient(135deg, #1d4ed8, #38bdf8);
+}
+
+.stat-purple {
+    background: linear-gradient(135deg, #6d28d9, #a78bfa);
+}
+
+.stat-green {
+    background: linear-gradient(135deg, #047857, #34d399);
+}
+
+.stat-gold {
+    background: linear-gradient(135deg, #b45309, #fbbf24);
+}
+
+.dashboard-mini-card {
+    background: rgba(20, 22, 34, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    padding: 22px;
+    text-align: center;
+}
+
+    .dashboard-mini-card h5 {
+        color: #ffffff;
+        font-size: 2rem;
+        font-weight: 700;
+    }
+
+    .dashboard-mini-card p {
+        color: #c7cbff;
+        margin: 0;
+    }
+
+.admin-menu-card {
+    min-height: 175px;
+}
