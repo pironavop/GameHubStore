@@ -1,0 +1,86 @@
+﻿@model List<GameHubStore.Models.Entities.Payment>
+@using GameHubStore.Models.Enums
+
+@{
+    ViewData["Title"] = "Payments";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Payments</h2>
+
+        <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index"
+           class="btn btn-secondary">
+            Back to Dashboard
+        </a>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <table class="table table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Payment ID</th>
+                        <th>Order</th>
+                        <th>User</th>
+                        <th>Method</th>
+                        <th>Transaction</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th class="text-end">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        foreach (var payment in Model)
+                        {
+                            <tr>
+                                <td>#@payment.Id</td>
+                                <td>#@payment.OrderId</td>
+                                <td>@payment.Order?.User?.Email</td>
+                                <td>@payment.PaymentMethod</td>
+                                <td>
+                                    <code>@payment.TransactionId</code>
+                                </td>
+                                <td>₹@payment.Amount</td>
+                                <td>
+                                    @if (payment.Status == PaymentStatus.Paid)
+                                    {
+                                        <span class="badge bg-success">Paid</span>
+                                    }
+                                    else if (payment.Status == PaymentStatus.Failed)
+                                    {
+                                        <span class="badge bg-danger">Failed</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">Pending</span>
+                                    }
+                                </td>
+                                <td>@payment.PaymentDate.ToString("dd MMM yyyy")</td>
+                                <td class="text-end">
+                                    <a asp-area="Admin"
+                                       asp-controller="Payments"
+                                       asp-action="Details"
+                                       asp-route-id="@payment.Id"
+                                       class="btn btn-sm btn-primary">
+                                        View
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="9" class="text-center">No payments found.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

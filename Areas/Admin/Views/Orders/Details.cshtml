@@ -1,0 +1,125 @@
+﻿@model GameHubStore.Models.Entities.Order
+@using GameHubStore.Models.Enums
+
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+<div class="container mt-4">
+    <a asp-area="Admin" asp-controller="Orders" asp-action="Index"
+       class="btn btn-secondary mb-3">
+        Back to Orders
+    </a>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    <div class="row g-4">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h3>Order #@Model.Id</h3>
+                    <p class="text-muted">@Model.OrderDate.ToString("dd MMM yyyy hh:mm tt")</p>
+
+                    <hr />
+
+                    <h5>Purchased Games</h5>
+
+                    @foreach (var item in Model.OrderItems)
+                    {
+                        <div class="d-flex align-items-center gap-3 border-bottom py-3">
+                            @if (!string.IsNullOrEmpty(item.Game.CoverImageUrl))
+                            {
+                                <img src="@item.Game.CoverImageUrl"
+                                     style="width:80px;height:100px;object-fit:cover;border-radius:8px;" />
+                            }
+
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">@item.Game.Title</h6>
+                                <p class="mb-1 text-muted">Quantity: @item.Quantity</p>
+                                <strong>₹@(item.Price * item.Quantity)</strong>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <h5>Total Amount</h5>
+                        <h5>₹@Model.TotalAmount</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5>Customer Details</h5>
+
+                    <p><strong>Name:</strong> @Model.User?.FullName</p>
+                    <p><strong>Email:</strong> @Model.User?.Email</p>
+
+                    <hr />
+
+                    <h5>Status</h5>
+
+                    <p>
+                        <strong>Order:</strong>
+                        <span class="badge bg-warning text-dark">@Model.OrderStatus</span>
+                    </p>
+
+                    <p>
+                        <strong>Payment:</strong>
+                        @if (Model.PaymentStatus == PaymentStatus.Paid)
+                        {
+                            <span class="badge bg-success">Paid</span>
+                        }
+                        else if (Model.PaymentStatus == PaymentStatus.Failed)
+                        {
+                            <span class="badge bg-danger">Failed</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">Pending</span>
+                        }
+                    </p>
+
+                    @if (Model.Payment != null)
+                    {
+                        <hr />
+                        <h5>Payment Details</h5>
+                        <p><strong>Method:</strong> @Model.Payment.PaymentMethod</p>
+                        <p><strong>Transaction:</strong> @Model.Payment.TransactionId</p>
+                        <p><strong>Date:</strong> @Model.Payment.PaymentDate.ToString("dd MMM yyyy hh:mm tt")</p>
+                    }
+
+                    <hr />
+
+                    <h5>Update Order Status</h5>
+
+                    <form asp-area="Admin"
+                          asp-controller="Orders"
+                          asp-action="UpdateStatus"
+                          method="post">
+
+                        <input type="hidden" name="id" value="@Model.Id" />
+
+                        <select name="orderStatus" class="form-select mb-3">
+                            @foreach (OrderStatus status in Enum.GetValues(typeof(OrderStatus)))
+                            {
+                                <option value="@status" selected="@(Model.OrderStatus == status)">
+                                    @status
+                                </option>
+                            }
+                        </select>
+
+                        <button type="submit" class="btn btn-primary w-100">
+                            Update Status
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

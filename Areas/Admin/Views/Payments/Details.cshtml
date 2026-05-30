@@ -1,0 +1,113 @@
+﻿@model GameHubStore.Models.Entities.Payment
+@using GameHubStore.Models.Enums
+
+@{
+    ViewData["Title"] = "Payment Details";
+}
+
+<div class="container mt-4">
+    <a asp-area="Admin" asp-controller="Payments" asp-action="Index"
+       class="btn btn-secondary mb-3">
+        Back to Payments
+    </a>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    <div class="row g-4">
+        <div class="col-md-7">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h3>Payment #@Model.Id</h3>
+                    <p class="text-muted">Transaction: @Model.TransactionId</p>
+
+                    <hr />
+
+                    <p><strong>Method:</strong> @Model.PaymentMethod</p>
+                    <p><strong>Amount:</strong> ₹@Model.Amount</p>
+                    <p><strong>Date:</strong> @Model.PaymentDate.ToString("dd MMM yyyy hh:mm tt")</p>
+
+                    <p>
+                        <strong>Status:</strong>
+                        @if (Model.Status == PaymentStatus.Paid)
+                        {
+                            <span class="badge bg-success">Paid</span>
+                        }
+                        else if (Model.Status == PaymentStatus.Failed)
+                        {
+                            <span class="badge bg-danger">Failed</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">Pending</span>
+                        }
+                    </p>
+
+                    @if (Model.Status == PaymentStatus.Pending)
+                    {
+                        <form asp-area="Admin"
+                              asp-controller="Payments"
+                              asp-action="MarkFailed"
+                              method="post">
+
+                            <input type="hidden" name="id" value="@Model.Id" />
+
+                            <button type="submit" class="btn btn-danger">
+                                Mark as Failed
+                            </button>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5>Order Details</h5>
+
+                    <p><strong>Order:</strong> #@Model.OrderId</p>
+                    <p><strong>User:</strong> @Model.Order?.User?.Email</p>
+                    <p><strong>Order Status:</strong> @Model.Order?.OrderStatus</p>
+                    <p><strong>Payment Status:</strong> @Model.Order?.PaymentStatus</p>
+
+                    <a asp-area="Admin"
+                       asp-controller="Orders"
+                       asp-action="Details"
+                       asp-route-id="@Model.OrderId"
+                       class="btn btn-primary w-100">
+                        View Order
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.Order?.OrderItems != null && Model.Order.OrderItems.Any())
+    {
+        <div class="card shadow-sm border-0 mt-4">
+            <div class="card-body">
+                <h5>Purchased Games</h5>
+
+                @foreach (var item in Model.Order.OrderItems)
+                {
+                    <div class="d-flex align-items-center gap-3 border-bottom py-3">
+                        @if (!string.IsNullOrEmpty(item.Game.CoverImageUrl))
+                        {
+                            <img src="@item.Game.CoverImageUrl"
+                                 style="width:70px;height:90px;object-fit:cover;border-radius:8px;" />
+                        }
+
+                        <div class="flex-grow-1">
+                            <h6>@item.Game.Title</h6>
+                            <p class="text-muted mb-1">Quantity: @item.Quantity</p>
+                            <strong>₹@(item.Price * item.Quantity)</strong>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
