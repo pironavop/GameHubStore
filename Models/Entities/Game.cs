@@ -24,5 +24,7 @@
         public ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
         public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
         public ICollection<GameKey> GameKeys { get; set; } = new List<GameKey>();
+
+        public ICollection<Review> Reviews { get; set; } = new List<Review>();
     }
 }

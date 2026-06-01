@@ -4,6 +4,7 @@ using GameHubStore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameHubStore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260601045536_AddWishlist")]
+    partial class AddWishlist
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -398,41 +401,6 @@ namespace GameHubStore.Migrations
                     b.ToTable("Platforms");
                 });
 
-            modelBuilder.Entity("GameHubStore.Models.Entities.Review", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Comment")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("GameId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GameId");
-
-                    b.HasIndex("UserId", "GameId")
-                        .IsUnique();
-
-                    b.ToTable("Reviews");
-                });
-
             modelBuilder.Entity("GameHubStore.Models.Entities.Wishlist", b =>
                 {
                     b.Property<int>("Id")
@@ -701,25 +669,6 @@ namespace GameHubStore.Migrations
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("GameHubStore.Models.Entities.Review", b =>
-                {
-                    b.HasOne("GameHubStore.Models.Entities.Game", "Game")
-                        .WithMany("Reviews")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GameHubStore.Models.Entities.ApplicationUser", "User")
-                        .WithMany("Reviews")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Game");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("GameHubStore.Models.Entities.Wishlist", b =>
                 {
                     b.HasOne("GameHubStore.Models.Entities.Game", "Game")
@@ -795,8 +744,6 @@ namespace GameHubStore.Migrations
                     b.Navigation("Orders");
 
                     b.Navigation("PurchasedKeys");
-
-                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("GameHubStore.Models.Entities.Cart", b =>
@@ -818,8 +765,6 @@ namespace GameHubStore.Migrations
                     b.Navigation("GamePlatforms");
 
                     b.Navigation("OrderItems");
-
-                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("GameHubStore.Models.Entities.Order", b =>

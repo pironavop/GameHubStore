@@ -19,6 +19,7 @@ namespace GameHubStore.Controllers
                 .Include(g => g.Category)
                 .Include(g => g.GamePlatforms)
                     .ThenInclude(gp => gp.Platform)
+                    .Include(g => g.Reviews)
                 .Where(g => g.IsActive)
                 .OrderByDescending(g => g.CreatedAt)
                 .ToListAsync();
@@ -28,11 +29,19 @@ namespace GameHubStore.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
+            //var game = await _context.Games
+            //    .Include(g => g.Category)
+            //    .Include(g => g.GamePlatforms)
+            //        .ThenInclude(gp => gp.Platform)
+            //    .FirstOrDefaultAsync(g => g.Id == id && g.IsActive);
+
             var game = await _context.Games
-                .Include(g => g.Category)
-                .Include(g => g.GamePlatforms)
-                    .ThenInclude(gp => gp.Platform)
-                .FirstOrDefaultAsync(g => g.Id == id && g.IsActive);
+                    .Include(g => g.Category)
+                    .Include(g => g.GamePlatforms)
+                        .ThenInclude(gp => gp.Platform)
+                    .Include(g => g.Reviews)
+                        .ThenInclude(r => r.User)
+                    .FirstOrDefaultAsync(g => g.Id == id && g.IsActive);
 
             if (game == null)
                 return NotFound();

@@ -10,6 +10,7 @@ namespace GameHubStore.Models.Entities
 
         public ICollection<Order> Orders { get; set; } = new List<Order>();
         public ICollection<GameKey> PurchasedKeys { get; set; } = new List<GameKey>();
+        public ICollection<Review> Reviews { get; set; } = new List<Review>();
 
     }
 }

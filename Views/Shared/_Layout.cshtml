@@ -53,6 +53,18 @@
                             <a class="nav-link" asp-area="" asp-controller="Library" asp-action="Index">My Library</a>
                         </li>
 
+                        <li class="nav-item">
+                            <a class="nav-link position-relative"
+                               asp-controller="Wishlist"
+                               asp-action="Index">
+
+                                ❤️ Wishlist
+
+                                @await Component.InvokeAsync("WishlistCount")
+
+                            </a>
+                        </li>
+
                     </ul>
 
                     <div class="d-flex align-items-center gap-2">

@@ -634,3 +634,31 @@ a {
 .admin-menu-card {
     min-height: 175px;
 }
+
+.wishlist-badge {
+    position: absolute;
+    top: -2px;
+    right: -10px;
+    background: #ff3b5c;
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 999px;
+    padding: 2px 7px;
+    min-width: 20px;
+    text-align: center;
+}
+
+
+.review-card {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 15px;
+}
+
+.review-stars {
+    margin: 8px 0;
+    color: #fbbf24;
+}

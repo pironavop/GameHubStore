@@ -4,6 +4,8 @@
     ViewData["Title"] = "Store";
 }
 
+
+
 <section class="store-section py-5">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
@@ -35,6 +37,14 @@
                                 <span class="game-category">@game.Category?.Name</span>
 
                                 <h5>@game.Title</h5>
+
+                                @{
+                                    var rating = game.Reviews.Any() ? game.Reviews.Average(r => r.Rating) : 0;
+                                }
+
+                                <p class="text-warning mb-1">
+                                    ⭐ @rating.ToString("0.0") / 5
+                                </p>
 
                                 <div class="platform-list">
                                     @foreach (var gp in game.GamePlatforms)

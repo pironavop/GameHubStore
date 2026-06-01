@@ -21,6 +21,8 @@ namespace GameHubStore.Data
         public DbSet<Payment> Payments { get; set; }
         public DbSet<GameKey> GameKeys { get; set; }
         public DbSet<GamePlatform> GamePlatforms { get; set; }
+        public DbSet<Wishlist> Wishlists { get; set; }
+        public DbSet<Review> Reviews { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -153,6 +155,22 @@ namespace GameHubStore.Data
             // Game key should be unique
             builder.Entity<GameKey>()
                 .HasIndex(gk => gk.KeyCode)
+                .IsUnique();
+
+            builder.Entity<Review>()
+                .HasOne(r => r.User)
+                .WithMany(u => u.Reviews)
+                .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Review>()
+                .HasOne(r => r.Game)
+                .WithMany(g => g.Reviews)
+                .HasForeignKey(r => r.GameId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Review>()
+                .HasIndex(r => new { r.UserId, r.GameId })
                 .IsUnique();
         }
     }

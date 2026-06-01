@@ -67,19 +67,39 @@
                 </a>
             }
 
-            @if (Model.PaymentStatus == GameHubStore.Models.Enums.PaymentStatus.Pending)
+            @* @if (Model.PaymentStatus == GameHubStore.Models.Enums.PaymentStatus.Pending) *@
+            @* { *@
+            @*     <form asp-controller="Payment" *@
+            @*           asp-action="SimulateSuccess" *@
+            @*           method="post" *@
+            @*           class="mt-3"> *@
+
+            @*         <input type="hidden" name="orderId" value="@Model.Id" /> *@
+
+            @*         <button type="submit" class="btn btn-success"> *@
+            @*             Simulate Payment Success *@
+            @*         </button> *@
+            @*     </form> *@
+            @* } *@
+
+
+
+            @if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
             {
-                <form asp-controller="Payment"
-                      asp-action="SimulateSuccess"
-                      method="post"
-                      class="mt-3">
+                @if (Model.PaymentStatus == GameHubStore.Models.Enums.PaymentStatus.Pending)
+                {
+                    <form asp-controller="Payment"
+                          asp-action="SimulateSuccess"
+                          method="post"
+                          class="mt-3">
 
-                    <input type="hidden" name="orderId" value="@Model.Id" />
+                        <input type="hidden" name="orderId" value="@Model.Id" />
 
-                    <button type="submit" class="btn btn-success">
-                        Simulate Payment Success
-                    </button>
-                </form>
+                        <button type="submit" class="btn btn-success">
+                            Simulate Payment Success
+                        </button>
+                    </form>
+                }
             }
 
         </div>
